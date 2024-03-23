@@ -1,0 +1,38 @@
+// return number of Divisors(n) using prime factorization
+ll numOfDivisors(primeFactors mp) {
+	ll cnt = 1;
+	for (auto it : mp) cnt *= (it.second + 1);
+	return cnt;
+}
+
+// return sum of Divisors(n) using prime factorization
+ll sumOfDivisors(primeFactors mp) {
+	ll sum = 1;
+	for (auto it : mp) sum *= sumPower(it.first, it.second);
+	return sum;
+}
+
+// prime factorization
+vector<int> primefact(int n) {
+    vector<int> primeFactors;
+    for (int j = 2; j * j <= x; ++j) {
+        if (x % j == 0)
+            primeFactors.push_back(j);
+        while (x % j == 0)
+            x /= j;
+    }
+    if (x > 1)
+        primeFactors.push_back(x);
+    return primeFactors;
+}
+
+
+// optmizied prime factorization
+unordered_map<int32_t, int32_t> getFactorization(int x) {
+    unordered_map<int32_t, int32_t> ret;
+    while (x != 1) {
+        ret[spf[x]]++;
+        x = x / spf[x];
+    }
+    return ret;
+}
