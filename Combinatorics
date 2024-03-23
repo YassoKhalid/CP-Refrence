@@ -17,6 +17,18 @@ ull nCr(int n, int r) {
 	}
 	return ans;
 }
+int nCr(int n, int r) {
+    r = min(r, n - r);
+    int ret = 1, cur = 1;
+    while (r) {
+        ret *= n, cur *= r;
+        int gc = gcd(ret, cur);
+        ret /= gc, cur /= gc;
+        n--, r--;
+    }
+    return ret;
+}
+
 
 
 ull nPr(int n, int r) {
