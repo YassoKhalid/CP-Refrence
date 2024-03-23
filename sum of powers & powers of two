@@ -6,4 +6,9 @@ int sum_pows(int n, int k) {
     half *= (1 + half - sum_pows(n, k / 2 - 1));
     return half;
 }
--------------------------------------------------
+
+// sum of pow of 2
+int sum_pow(int n){
+
+	return n*(n+1)*(2*n+1)/6;
+}
