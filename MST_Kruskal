@@ -1,0 +1,27 @@
+vector<edge> edgeList;
+pair<int, vector<edge>> MST_Kruskal(int n) {//O(edges*log(edges))
+	DSU uf(n);
+	vector < edge > edges;
+	int mstCost = 0;
+	sort(edgeList.begin(), edgeList.end());
+	for (auto e : edgeList)
+		if (uf.union_sets(e.from, e.to)) {
+			mstCost += e.weight;
+			edges.push_back(e);
+		}
+	if (edges.size() != n - 1)
+		return { INT_MAX,vector<edge>() };
+	return { mstCost,edges };
+}
+int miniMax(int src, int dest, int n) {
+	int max = INT_MIN;
+	DSU uf(n);
+	sort(edgeList.begin(), edgeList.end());
+	for (auto e : edgeList) {
+		if (uf.same_set(src, dest))
+			return max;
+		uf.union_sets(e.from, e.to);
+		max = e.weight;
+	}
+	return max;
+}
