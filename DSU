@@ -14,7 +14,7 @@ struct DSU {
     }
 
     int find_set(int v) {
-        return parent[v](parent[v] == v ? v : find_set(parent[v]));
+        return parent[v] = (parent[v] == v ? v : find_set(parent[v]));
     }
 
     void link(int par, int node) {
