@@ -1,28 +1,3 @@
-// using spf
-unordered_map<int32_t, int32_t> getFactorization(int x) {
-    unordered_map<int32_t, int32_t> ret;
-    while (x != 1) {
-        ret[spf[x]]++;
-        x = x / spf[x];
-    }
-    return ret;
-}
-
- // prime factorization
- vector<int> primefact(int n) {
-    vector<int> primeFactors;
-    for (int j = 2; j * j <= x; ++j) {
-        if (x % j == 0)
-            primeFactors.push_back(j);
-        while (x % j == 0)
-            x /= j;
-    }
-    if (x > 1)
-        primeFactors.push_back(x);
-    return primeFactors;
-}
-
-// factorization
 set<int> divs(int n) {
    set<int> divs;
     divs.emplace_back(1);
