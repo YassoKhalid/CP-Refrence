@@ -1,3 +1,8 @@
+
+int add(int a, int b) { return ((a % mod) + (b % mod) +  mod) % mod; }
+ 
+int mul(int a, int b) { return (a % mod) * (b % mod) % mod; }
+
 //Fast power
 ll fp(ll x, ll y, int mod) {
     if (y == 0) return 1;
