@@ -11,7 +11,15 @@ ll sumOfDivisors(primeFactors mp) {
 	for (auto it : mp) sum *= sumPower(it.first, it.second);
 	return sum;
 }
-
+// power of a prime factor
+int fact_pow (int n, int k) {
+    int res = 0;
+    while (n) {
+        n /= k;
+        res += n;
+    }
+    return res;
+}
 // prime factorization
 vector<int> primefact(int n) {
     vector<int> primeFactors;
