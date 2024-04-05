@@ -5,11 +5,11 @@ int mul(int a, int b) { return (a % mod) * (b % mod) % mod; }
 
 int sub(int a, int b){ return (((a+mod)%mod-(b+mod)%mod)%mod+mod)%mod;}
 //Fast power
-ll fp(ll x, ll y, int mod) {
+int fp(int x, int y, int mod = 1e9 + 7) {
     if (y == 0) return 1;
     if (y == 1) return x % mod;
-    ll r = fp(x, y >> 1, mod);
-    return (((r * r) % mod) * power(x, y & 1, mod)) % mod;
+    int cur = fp(x, y >> 1, mod);
+    return (((cur * cur) % mod) * fp(x, y & 1, mod)) % mod;
 }
 int fp(int n, int p) {
 
