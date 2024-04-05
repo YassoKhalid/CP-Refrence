@@ -1,8 +1,8 @@
 // return number of Divisors(n) using prime factorization
-ll numOfDivisors(primeFactors mp) {
-	ll cnt = 1;
-	for (auto it : mp) cnt *= (it.second + 1);
-	return cnt;
+int numOfDivisors(unordered_map<int32_t, int32_t> mp) {
+    int cnt = 1;
+    for (auto it: mp) cnt *= (1ll * it.second + 1);
+    return cnt;
 }
 
 // return sum of Divisors(n) using prime factorization
