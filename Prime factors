@@ -21,17 +21,16 @@ int fact_pow (int n, int k) {
     return res;
 }
 // prime factorization
-vector<int> primefact(int n) {
-    vector<int> primeFactors;
-    for (int j = 2; j * j <= x; ++j) {
-        if (x % j == 0)
-            primeFactors.push_back(j);
-        while (x % j == 0)
-            x /= j;
+
+vector<pair<int, int>> primeFactorization(int n) {
+    vector<pair<int, int>> ret;
+    for (int i = 2; i * i <= n; i++) {
+        int cnt = 0;
+        while (n % i == 0)cnt++, n /= i;
+        if (cnt)ret.emplace_back(i, cnt);
     }
-    if (x > 1)
-        primeFactors.push_back(x);
-    return primeFactors;
+    if (n > 1)ret.emplace_back(n, 1);
+    return ret;
 }
 
 
