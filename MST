@@ -1,18 +1,21 @@
 MST
 Kruskal
 struct edge {
-	int from, to;
-	ll weight;
-	edge() {
-		from = to = weight = 0;
-	}
-	edge(int from, int to, ll weight) :
-		from(from), to(to), weight(weight) {
-	}
-	bool operator <(const edge& other) const {
-		return weight < other.weight;
-	}
+    int from, to, weight;
+
+    edge() {
+        from = to = weight = 0;
+    }
+
+    edge(int from, int to, int weight) :
+            from(from), to(to), weight(weight) {
+    }
+
+    bool operator<(const edge &other) const {
+        return weight < other.weight;
+    }
 };
+
 vector<edge> edgeList;
 pair<int, vector<edge>> MST_Kruskal(int n) {//O(edges*log(edges))
 	DSU uf(n);
