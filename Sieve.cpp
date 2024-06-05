@@ -14,8 +14,20 @@ void sieve() {
 		if (isPrime[i])
 			prime.push_back(i);
 }
-
-
+map<int,int>mp;
+void Prime_Factors_Faster(int n){
+	int idx = 0;
+	while (idx < primes.size() && primes[idx] * primes[idx] <= n){
+		if (n % primes[idx] == 0)
+            mp[primes[idx]]++;
+		while (n % primes[idx] == 0){
+			n /= primes[idx];
+		}
+		++idx;
+	}
+	if(n>1)
+        mp[n]++;
+}
 // spf
 int spf[N+1];
 void seive() {
