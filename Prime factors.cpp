@@ -33,7 +33,25 @@ vector<pair<int, int>> primeFactorization(int n) {
     return ret;
 }
 
-
+// generate divisors using prime factors
+vector<int> get(int n) {
+    vector<pair<int, int>> primes = primeFactorization(n);
+    vector<int> divs = {1};
+    for (auto &it: primes) {
+        int prime = it.first;
+        int po = it.second;
+        int current_size = divs.size();
+        for (int i = 0; i < current_size; ++i) {
+            int divisor = divs[i];
+            int power = 1;
+            for (int j = 1; j <= po; ++j) {
+                power *= prime;
+                divs.push_back(divisor * power);
+            }
+        }
+    }
+    return divs;
+}
 // optmizied prime factorization
 unordered_map<int32_t, int32_t> getFactorization(int x) {
     unordered_map<int32_t, int32_t> ret;
