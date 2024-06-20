@@ -10,7 +10,7 @@ class LCA {
             if (~up_parent)
 lca[node][k] = lca[up_parent][k - 1];
         }
-        for (int child : adj[node])
+        for (auto child : adj[node])
             if (child != parent) 
 dfs(child, node);
     }
