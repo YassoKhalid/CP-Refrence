@@ -48,8 +48,7 @@ void seive() {
         }
     }
 }
-
-// linear sieve lpf
+// linear sieve lpf nlog logn
 const int N = 1e7;
 int lpf[N + 1];
 vector<int> prime;
