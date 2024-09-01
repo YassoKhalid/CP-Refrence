@@ -9,31 +9,30 @@ const int N = 2e5, LOG = 20;
 
 struct node {
     int val;
+
+    node() {}
+
+    node(int val) : val(val) {}
+
+    bool operator<(const node &a) const {
+        return val < a.val;
+    }
 };
+
 int logs[N];
 
 struct SparseTable {
     vector<vector<node>> table;
 
-    node single(int val) {
-        node ret;
-        ret.val = val;
-        return ret;
-    }
-
     node merge(node a, node b) {
-        node ret;
-        ret.val = min(a.val, b.val);
-        return ret;
+        return min(a, b);
     }
 
     void build(vector<int> &a) {
-
         int n = (int) a.size();
-        table = vector<vector<node>>(n + 1, vector<node>(LOG));
-
+        table = vector<vector<node>>(n + 1, vector<node>(logs[n] + 1));
         for (int i = 0; i < n; i++) {
-            table[i][0] = single(a[i]);
+            table[i][0] = node(a[i]);
         }
         for (int j = 1; j <= logs[n]; j++) {
             for (int i = 0; i <= n - (1 << j); i++) {
