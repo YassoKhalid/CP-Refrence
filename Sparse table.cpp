@@ -25,7 +25,7 @@ struct SparseTable {
     vector<vector<node>> table;
 
     node merge(node a, node b) {
-        return min(a, b);
+        return (a.val + b.val);
     }
 
     void build(vector<int> &a) {
@@ -41,12 +41,27 @@ struct SparseTable {
         }
     }
 
-    node query(int l, int r) {
+    node query(int l, int r) { // overlap
         int sz = logs[r - l + 1];
         return merge(table[l][sz], table[r - (1 << sz) + 1][sz]);
     }
 
-    static void initLog() {
+    node queryNonOverlap(int l, int r) { // log(n)
+        node res;
+        bool first = true;
+        int log = (int) table[0].size();
+        for (int i = log - 1; i >= 0; i--) {
+            if (l + (1 << i) - 1 <= r) {
+                if (first)res = table[l][i];
+                else res = merge(res, table[l][i]);
+                first = false;
+                l += 1 << i;
+            }
+        }
+        return res;
+    }
+
+    static void initLog() { // do not forget to call it in the main
         logs[1] = 0;
         for (int i = 2; i < N; i++)
             logs[i] = logs[i >> 1] + 1;
@@ -59,5 +74,6 @@ signed main() {
     cin.tie(nullptr);
 
     SparseTable::initLog();
+    
     return 0;
 }
