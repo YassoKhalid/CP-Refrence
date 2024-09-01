@@ -1,42 +1,63 @@
-template<typename T>
-struct sparse_table {
-	vector<vector<T>> sparseTable;
-	using F = function<T(T, T)>;
-	F merge;
-	static int LOG2(int x) { //floor(log2(x))
-		return 31 - __builtin_clz(x);
-	}
-	sparse_table(vector<T>& v, F merge) :
-		merge(merge) {
-		int n = v.size();
-		int logN = LOG2(n);
-		sparseTable = vector<vector<T>>(logN + 1);
-		sparseTable[0] = v;
-		for (int k = 1, len = 1; k <= logN; k++, len <<= 1) {
-			sparseTable[k].resize(n);
-			for (int i = 0; i + len < n; i++)
-				sparseTable[k][i] = merge(sparseTable[k - 1][i],
-					sparseTable[k - 1][i + len]);
-		}
-	}
-	T query(int l, int r) {
-		int k = LOG2(r - l + 1); // max k ==> 2^k <= length of range
-		//check first 2^k from left and last 2^k from right //overlap
-		return merge(sparseTable[k][l], sparseTable[k][r - (1 << k) + 1]);
-	}
-	T query_shifting(int l, int r) {
-		T res;
-		bool first = true;
-		for (int i = (int)sparseTable.size() - 1; i >= 0; i--)
-			if (l + (1 << i) - 1 <= r) {
-				if (first)
-					res = sparseTable[i][l];
-				else
-					res = merge(res, sparseTable[i][l]);
-				first = false;
-				l += (1 << i);
-			}
-		return res;
-	}
+// There is an east wind coming.
+#include "bits/stdc++.h"
+
+using namespace std;
+
+#define int long long
+
+const int N = 2e5, LOG = 20;
+struct Node {
+    int val;
+};
+int logs[N];
+
+struct SparseTable {
+    vector<vector<Node>> table;
+
+    Node single(int val) {
+        Node ret;
+        ret.val = val;
+        return ret;
+    }
+
+    Node merge(Node a, Node b) {
+        Node ret;
+        ret.val = min(a.val, b.val);
+        return ret;
+    }
+
+    void build(vector<int> &a) {
+
+        int n = (int) a.size();
+        table = vector<vector<Node>>(n + 1, vector<Node>(LOG));
+
+        for (int i = 0; i < n; i++) {
+            table[i][0] = single(a[i]);
+        }
+        for (int j = 1; j <= logs[n]; j++) {
+            for (int i = 0; i <= n - (1 << j); i++) {
+                table[i][j] = merge(table[i][j - 1], table[i + (1 << (j - 1))][j - 1]);
+            }
+        }
+    }
+
+    Node query(int l, int r) {
+        int sz = logs[r - l + 1];
+        return merge(table[l][sz], table[r - (1 << sz) + 1][sz]);
+    }
+
+    static void initLog() {
+        logs[1] = 0;
+        for (int i = 2; i < N; i++)
+            logs[i] = logs[i >> 1] + 1;
+    }
 };
 
+
+signed main() {
+    std::ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    SparseTable::initLog();
+    return 0;
+}
