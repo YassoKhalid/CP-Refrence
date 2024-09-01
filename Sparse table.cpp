@@ -6,22 +6,23 @@ using namespace std;
 #define int long long
 
 const int N = 2e5, LOG = 20;
-struct Node {
+
+struct node {
     int val;
 };
 int logs[N];
 
 struct SparseTable {
-    vector<vector<Node>> table;
+    vector<vector<node>> table;
 
-    Node single(int val) {
-        Node ret;
+    node single(int val) {
+        node ret;
         ret.val = val;
         return ret;
     }
 
-    Node merge(Node a, Node b) {
-        Node ret;
+    node merge(node a, node b) {
+        node ret;
         ret.val = min(a.val, b.val);
         return ret;
     }
@@ -29,7 +30,7 @@ struct SparseTable {
     void build(vector<int> &a) {
 
         int n = (int) a.size();
-        table = vector<vector<Node>>(n + 1, vector<Node>(LOG));
+        table = vector<vector<node>>(n + 1, vector<node>(LOG));
 
         for (int i = 0; i < n; i++) {
             table[i][0] = single(a[i]);
@@ -41,7 +42,7 @@ struct SparseTable {
         }
     }
 
-    Node query(int l, int r) {
+    node query(int l, int r) {
         int sz = logs[r - l + 1];
         return merge(table[l][sz], table[r - (1 << sz) + 1][sz]);
     }
