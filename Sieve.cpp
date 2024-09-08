@@ -29,16 +29,13 @@ void Prime_Factors_Faster(int n){
         mp[n]++;
 }
 // spf
-int spf[N+1];
+vector<int>spf(N+1);
 void seive() {
-    spf[1] = 1;
-    for (int32_t i = 1; i <= N; i++) {
-        spf[i] = i;
-    }
+    iota(spf.begin(), spf.end(),0);
     for (int32_t i = 4; i <= N; i += 2) {
         spf[i] = 2;
     }
-    for (int32_t i = 3; i * i <= N; i++) {
+    for (int32_t i = 3; 1ll * i * i <= N; i+=2) {
         if (spf[i] == i) {
             for (ll j = i * i; j <= N; j += i) {
                 if (spf[j] == j) {
