@@ -6,33 +6,19 @@ using namespace std;
 #define int long long
 
 const int N = 2e5, LOG = 20;
-
-struct node {
-    int val;
-
-    node() {}
-
-    node(int val) : val(val) {}
-
-    bool operator<(const node &a) const {
-        return val < a.val;
-    }
-};
-
 int logs[N];
 
+template<typename T>
 struct SparseTable {
-    vector<vector<node>> table;
+    vector<vector<T>> table;
 
-    node merge(node a, node b) {
-        return (a.val + b.val);
-    }
+    T merge(T a, T b) {}
 
     void build(vector<int> &a) {
         int n = (int) a.size();
-        table = vector<vector<node>>(n + 1, vector<node>(logs[n] + 1));
+        table = vector<vector<T>>(n + 1, vector<T>(logs[n] + 1));
         for (int i = 0; i < n; i++) {
-            table[i][0] = node(a[i]);
+            table[i][0] = T(a[i]);
         }
         for (int j = 1; j <= logs[n]; j++) {
             for (int i = 0; i <= n - (1 << j); i++) {
@@ -41,13 +27,13 @@ struct SparseTable {
         }
     }
 
-    node query(int l, int r) { // overlap
+    T query(int l, int r) { // overlap o(1)
         int sz = logs[r - l + 1];
         return merge(table[l][sz], table[r - (1 << sz) + 1][sz]);
     }
 
-    node queryNonOverlap(int l, int r) { // log(n)
-        node res;
+    T queryNonOverlap(int l, int r) { // o(log n)
+        T res;
         bool first = true;
         int log = (int) table[0].size();
         for (int i = log - 1; i >= 0; i--) {
@@ -61,19 +47,18 @@ struct SparseTable {
         return res;
     }
 
-    static void initLog() { // do not forget to call it in the main
+    static void initLog() { // do not forget to call it before the code
         logs[1] = 0;
         for (int i = 2; i < N; i++)
             logs[i] = logs[i >> 1] + 1;
     }
 };
 
-
 signed main() {
     std::ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    SparseTable::initLog();
+    SparseTable<int>::initLog();
     
     return 0;
 }
